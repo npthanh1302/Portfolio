@@ -26,6 +26,7 @@ interface Project {
   fullReport?: string;
   objective: string | React.ReactNode;
   insights: { title: string; text: string; icon: React.ReactNode }[];
+  recommendations: { title: string; points: { label: string; text: string }[] }[];
 }
 
 // --- Data ---
@@ -67,6 +68,30 @@ const PROJECTS: Project[] = [
         title: 'The Leverage Trap',
         text: 'Interest rates above 15% drive default rates up to 57.9%. When an interest rate over 15% is combined with a Debt-to-Income (DTI) ratio greater than 50%, the NPL ratio spikes to 78.8%, proving that high interest rates cannot compensate for extreme financial leverage.',
         icon: <TrendingUp className="w-5 h-5" />
+      }
+    ],
+    recommendations: [
+      {
+        title: 'Underwriting Policy Adjustments',
+        points: [
+          { label: 'AI-Driven Screening', text: 'Integrate XGBoost models for real-time forecasting; auto-flagging High-Risk Grades (D-G) and risky loan purposes: Debtconsodilation & Medical.' },
+          { label: 'Strict DTI Control', text: 'Cap interest rates at 15% for borrowers with DTI > 50% to mitigate the proven 78.8% NPL risk in this segment.' },
+          { label: 'Collateral Mandate', text: 'Require high-liquidity collateral for prior delinquencies and limit loan amounts for risk grades and risky loan purposes.' }
+        ]
+      },
+      {
+        title: 'Targeting Strategy',
+        points: [
+          { label: 'Safe Zone Expansion', text: 'Prioritize Grade A/B and stable sectors (Venture/Education) for portfolio growth.' },
+          { label: 'Newbie Policy', text: 'Implement lower initial limits for young renters/new employees to monitor behavior before increasing exposure.' }
+        ]
+      },
+      {
+        title: 'Early Warning System (EWS)',
+        points: [
+          { label: 'Automated Red-Flags', text: 'Deploy alerts for high-risk profiles (Gen Z + Low Income + Renting + DTI > 70%) for mandatory manual review.' },
+          { label: 'Risk-Based Pricing', text: 'Maintain interest rates below the 15% "Breaking Point" to ensure solvency and boost customer retention.' }
+        ]
       }
     ]
   }
@@ -245,56 +270,73 @@ const ProjectModal = ({ project, onClose }: { project: Project; onClose: () => v
         <div className="flex-1 overflow-y-auto p-4 md:p-6">
           {activeTab === 'summary' ? (
             <div className="flex flex-col lg:flex-row gap-12">
-              <article className="flex-1 space-y-12">
-                <section className="bg-surface-low p-8 rounded-xl border-l-4 border-primary/20 relative group overflow-hidden">
-                   <div className="absolute top-0 left-0 w-1 h-full bg-primary/20 group-hover:bg-primary transition-colors duration-300" />
-                  <h3 className="text-xl font-bold text-primary flex items-center gap-2 mb-4">
-                    <TrendingUp size={20} /> Objective
-                  </h3>
-                  <div className="text-on-surface leading-relaxed text-lg font-medium opacity-90">
-                    {project.objective}
+              <article className="flex-1 space-y-16">
+                {/* Section: Objective */}
+                <section className="relative">
+                  <div className="flex items-center gap-3 mb-6">
+                    <div className="w-1.5 h-8 bg-primary rounded-full" />
+                    <h3 className="text-2xl font-black tracking-tight text-on-surface">Objective</h3>
+                  </div>
+                  <div className="bg-surface-low p-10 rounded-[2.5rem] border border-surface-highest/20 shadow-sm relative overflow-hidden group">
+                    <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-full -mr-16 -mt-16 blur-2xl group-hover:bg-primary/10 transition-colors" />
+                    <div className="text-on-surface leading-relaxed text-lg font-medium opacity-90 relative z-10">
+                      {project.objective}
+                    </div>
                   </div>
                 </section>
 
-                <section className="space-y-6">
-                  <h3 className="text-xl font-bold text-on-surface flex items-center gap-2 mb-6 border-b border-surface-highest pb-2">
-                    <TrendingUp size={20} className="text-primary" /> Key Insights
-                  </h3>
+                {/* Section: Key Insights */}
+                <section className="space-y-8">
+                  <div className="flex items-center gap-3">
+                    <div className="w-1.5 h-8 bg-primary rounded-full" />
+                    <h3 className="text-2xl font-black tracking-tight text-on-surface">Key Insights</h3>
+                  </div>
                   <div className="grid gap-6">
                     {project.insights.map((insight, idx) => (
-                      <div key={idx} className="bg-surface-container p-6 rounded-xl flex gap-5 items-start">
-                        <div className="bg-primary/10 p-3 rounded-full text-primary h-fit">
+                      <div key={idx} className="bg-white p-8 rounded-[2.5rem] border border-surface-highest/20 shadow-xl shadow-surface-highest/5 flex gap-8 items-start group hover:border-primary/30 transition-all">
+                        <div className="bg-primary/5 p-5 rounded-3xl text-primary h-fit group-hover:scale-110 group-hover:bg-primary group-hover:text-white transition-all shadow-lg shadow-primary/5">
                           {insight.icon}
                         </div>
-                        <div>
-                          <h4 className="font-bold text-lg text-on-surface mb-2">{insight.title}</h4>
-                          <p className="text-on-surface-variant text-base leading-relaxed">{insight.text}</p>
+                        <div className="space-y-3">
+                          <h4 className="font-black text-xl text-on-surface tracking-tight">{insight.title}</h4>
+                          <p className="text-on-surface-variant text-base leading-relaxed font-medium opacity-80">{insight.text}</p>
                         </div>
                       </div>
                     ))}
                   </div>
                 </section>
 
-                <section className="bg-surface-low p-8 rounded-xl space-y-6">
-                   <h3 className="text-xl font-bold text-on-surface flex items-center gap-2">
-                    <CheckCircle2 size={20} className="text-primary" /> Business Impact
-                  </h3>
-                  <ul className="space-y-4">
-                    {[
-                      { label: 'Reduced NPL Ratio', val: 'Identified risk factors contributing to a projected reduction in non-performing loans.' },
-                      { label: 'Strategic Growth', val: 'Mapped low-risk expansion opportunities through detailed segment profiling.' },
-                      { label: 'Portfolio Health', val: 'Enhanced real-time monitoring capabilities through automated Power BI reporting.' }
-                    ].map((item, i) => (
-                      <li key={i} className="flex gap-3 text-on-surface">
-                        <CheckCircle2 size={18} className="text-primary shrink-0 mt-1" />
-                        <span className="text-lg"><strong>{item.label}:</strong> {item.val}</span>
-                      </li>
+                {/* Section: Strategic Recommendations */}
+                <section className="space-y-8">
+                  <div className="flex items-center gap-3">
+                    <div className="w-1.5 h-8 bg-primary rounded-full" />
+                    <h3 className="text-2xl font-black tracking-tight text-on-surface">Strategic Recommendations</h3>
+                  </div>
+                  <div className="bg-surface-low p-10 rounded-[3rem] border border-surface-highest/20 space-y-12 shadow-inner">
+                    {project.recommendations.map((outer, i) => (
+                      <div key={i} className="space-y-8">
+                        <div className="flex items-center gap-4">
+                          <span className="text-5xl font-black text-primary/10 italic leading-none">{String(i + 1).padStart(2, '0')}</span>
+                          <h4 className="text-2xl font-black text-on-surface tracking-tighter">{outer.title}</h4>
+                        </div>
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-1 gap-6 pl-4 border-l-2 border-surface-highest/40">
+                          {outer.points.map((inner, j) => (
+                            <div key={j} className="space-y-2 group">
+                              <h5 className="text-primary font-black uppercase text-xs tracking-widest flex items-center gap-2">
+                                <span className="w-1.5 h-1.5 bg-primary rounded-full group-hover:scale-150 transition-transform" />
+                                {inner.label}
+                              </h5>
+                              <p className="text-on-surface-variant text-sm font-medium leading-relaxed opacity-90 pl-3.5">{inner.text}</p>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
                     ))}
-                  </ul>
+                  </div>
                 </section>
               </article>
 
-              <aside className="lg:w-80 shrink-0 space-y-8">
+              <aside className="lg:w-80 shrink-0 space-y-8 lg:sticky lg:top-0 h-fit">
                 <div className="bg-surface-high p-8 rounded-2xl text-center shadow-sm">
                   <div className="w-16 h-16 bg-primary-container/20 rounded-full flex items-center justify-center text-primary mx-auto mb-4">
                     <Download size={32} />
