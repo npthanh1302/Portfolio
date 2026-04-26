@@ -434,7 +434,7 @@ export default function App() {
       </section>
 
       {/* Experience Section */}
-      <section id="experience" className="bg-surface-low py-32 overflow-hidden">
+      <section id="experience" className="bg-surface-low py-20 overflow-hidden">
         <div className="max-w-6xl mx-auto px-6">
           <div className="text-center mb-32 space-y-6">
             <h2 className="text-5xl md:text-7xl font-black tracking-tighter">Professional Journey</h2>
@@ -521,7 +521,7 @@ export default function App() {
       </section>
 
       {/* Projects Section */}
-      <section id="projects" className="py-40 max-w-7xl mx-auto px-6">
+      <section id="projects" className="py-20 max-w-7xl mx-auto px-6">
         <div className="max-w-3xl mx-auto text-center mb-32 space-y-8">
           <h2 className="text-5xl md:text-7xl font-black tracking-tighter">Curated Projects</h2>
           <p className="text-xl text-on-surface-variant font-medium leading-relaxed opacity-80 italic">Case studies demonstrating the translation of raw data into actionable business strategy.</p>
@@ -568,7 +568,7 @@ export default function App() {
       </section>
 
       {/* Skills Section */}
-      <section id="skills" className="bg-surface-highest py-40 px-6 relative overflow-hidden">
+      <section id="skills" className="bg-surface-highest py-20 px-6 relative overflow-hidden">
          <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-primary/5 rounded-full blur-[180px] -ml-40 -mb-40 pointer-events-none" />
         <div className="max-w-6xl mx-auto relative z-10">
           <h2 className="text-5xl md:text-8xl font-black tracking-tighter mb-32 text-center">Technical Toolkit</h2>
@@ -617,7 +617,7 @@ export default function App() {
       </section>
 
       {/* Education Section */}
-      <section id="education" className="py-40 px-6 max-w-7xl mx-auto">
+      <section id="education" className="py-20 px-6 max-w-7xl mx-auto">
         <div className="text-center mb-32 space-y-6">
           <h2 className="text-5xl md:text-8xl font-black tracking-tighter">Credentials</h2>
           <p className="text-2xl text-on-surface-variant italic font-medium opacity-60">Continuous learning is the foundation of effective analysis.</p>
@@ -631,7 +631,7 @@ export default function App() {
             <div className="absolute inset-0 bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity" />
             <div className="absolute top-0 right-0 w-64 h-64 bg-primary-container/10 rounded-full blur-[100px] -mr-20 -mt-20" />
             <div className="flex flex-col gap-12 items-center text-center relative z-10">
-              <div className="w-64 h-64 bg-white rounded-[4rem] flex items-center justify-center p-12 shadow-2xl shadow-primary/5 transform -rotate-3 hover:rotate-0 transition-transform">
+              <div className="w-64 h-64 bg-white rounded-[4rem] flex items-center justify-center p-12 shadow-2xl shadow-primary/5 transition-transform group-hover:scale-105">
                 <img src="/Logo_UEH_xanh.png" alt="University of Economics Ho Chi Minh City Logo" className="w-full h-full object-contain" />
               </div>
               <div className="space-y-6">
