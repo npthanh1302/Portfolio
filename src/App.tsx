@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { 
   TrendingUp, 
@@ -24,6 +24,7 @@ interface Project {
   image: string;
   tags: string[];
   fullReport?: string;
+  objective: string | React.ReactNode;
   insights: { title: string; text: string; icon: React.ReactNode }[];
 }
 
@@ -35,16 +36,36 @@ const PROJECTS: Project[] = [
     subtitle: '',
     description: 'Conducted rigorous EDA and data cleaning in Python to build a robust machine learning model for predicting customer default risks. Architected a scalable database and engineered interactive Power BI dashboards, allowing stakeholders to immediately identify and mitigate high-risk portfolios.',
     image: '/Report-Risk-Overview.png',
-    tags: ['Python', 'Scikit-Learn', 'Power BI', 'SQL'],
+    tags: ['Python', 'Power BI', 'SQL'],
+    objective: (
+      <div className="space-y-4">
+        <p>The primary mission of the report is to optimize lending decisions by expanding credit access for reliable borrowers while filtering out high-risk profiles. This is achieved through three strategic focuses:</p>
+        <ul className="space-y-2 list-disc pl-5 opacity-90">
+          <li><strong>Risk Identification:</strong> Identifying specific borrower profiles and behaviors that lead to default.</li>
+          <li><strong>Capital Preservation:</strong> Mitigating financial losses by classifying and highlighting high-risk segments.</li>
+          <li><strong>Policy Balancing:</strong> Refining lending thresholds and adjusting interest rate policies to ensure long-term profitability and safety.</li>
+        </ul>
+      </div>
+    ),
     insights: [
       {
-        title: 'Debt-to-Income Ratio Dominance',
-        text: 'Analysis revealed that a DTI ratio exceeding 43% correlates strongly with a 65% higher probability of default within the first 12 months.',
+        title: 'Overall Portfolio Quality',
+        text: 'The portfolio has a volume-based Default Rate of 21.5% and a value-based Non-Performing Loan (NPL) Ratio of 24.6%. Market performance and default rates are uniform across the USA, UK, and Canada, indicating risk is driven by financial profiles rather than geography.',
         icon: <TrendingUp className="w-5 h-5" />
       },
       {
-        title: 'Historical Delinquency Patterns',
-        text: 'Recent late payments (within 6 months) are more indicative of future default than older severe derogatory marks.',
+        title: 'Risk Segmentation',
+        text: 'Grade A and Venture loans represent the lowest risk "Safety Zone". Conversely, the "Extreme Risk Zone" is found in lower grades (D-G), with Medical and Debt Consolidation loans in these tiers suffering near-total loss rates of 90%-100%.',
+        icon: <TrendingUp className="w-5 h-5" />
+      },
+      {
+        title: 'High-Risk Personas',
+        text: 'Gen Z and Young Adults (ages 20-30) make up about 76% of the portfolio but are the largest source of financial loss. Specifically, borrowers under 30 with incomes below $80k account for approximately 65% of the portfolio\'s total bad debt. Additionally, having a prior delinquency record doubles the default rate to 37.6%.',
+        icon: <TrendingUp className="w-5 h-5" />
+      },
+      {
+        title: 'The Leverage Trap',
+        text: 'Interest rates above 15% drive default rates up to 57.9%. When an interest rate over 15% is combined with a Debt-to-Income (DTI) ratio greater than 50%, the NPL ratio spikes to 78.8%, proving that high interest rates cannot compensate for extreme financial leverage.',
         icon: <TrendingUp className="w-5 h-5" />
       }
     ]
@@ -230,9 +251,9 @@ const ProjectModal = ({ project, onClose }: { project: Project; onClose: () => v
                   <h3 className="text-xl font-bold text-primary flex items-center gap-2 mb-4">
                     <TrendingUp size={20} /> Objective
                   </h3>
-                  <p className="text-on-surface leading-relaxed text-lg font-medium opacity-90">
-                    To design and deploy a robust machine learning system capable of accurately predicting the likelihood of credit default among applicants. The system aims to minimize financial risk while ensuring fair and transparent lending practices, moving beyond traditional heuristic-based scoring models.
-                  </p>
+                  <div className="text-on-surface leading-relaxed text-lg font-medium opacity-90">
+                    {project.objective}
+                  </div>
                 </section>
 
                 <section className="space-y-6">
@@ -260,9 +281,9 @@ const ProjectModal = ({ project, onClose }: { project: Project; onClose: () => v
                   </h3>
                   <ul className="space-y-4">
                     {[
-                      { label: 'Reduced Default Rate', val: 'Projected 15% reduction in overall portfolio default rates.' },
-                      { label: 'Operational Efficiency', val: 'Automated 80% of initial screenings, saving 45 hours weekly.' },
-                      { label: 'Fair Lending Compliance', val: 'Ensured parity across demographics within 2% threshold.' }
+                      { label: 'Reduced NPL Ratio', val: 'Identified risk factors contributing to a projected reduction in non-performing loans.' },
+                      { label: 'Strategic Growth', val: 'Mapped low-risk expansion opportunities through detailed segment profiling.' },
+                      { label: 'Portfolio Health', val: 'Enhanced real-time monitoring capabilities through automated Power BI reporting.' }
                     ].map((item, i) => (
                       <li key={i} className="flex gap-3 text-on-surface">
                         <CheckCircle2 size={18} className="text-primary shrink-0 mt-1" />
@@ -278,11 +299,15 @@ const ProjectModal = ({ project, onClose }: { project: Project; onClose: () => v
                   <div className="w-16 h-16 bg-primary-container/20 rounded-full flex items-center justify-center text-primary mx-auto mb-4">
                     <Download size={32} />
                   </div>
-                  <h4 className="font-bold text-on-surface mb-2 text-lg">Full Project Report</h4>
-                  <p className="text-sm text-on-surface-variant mb-6 leading-relaxed">Download the comprehensive 24-page analysis, including methodology and metrics.</p>
-                  <button className="w-full bg-primary text-on-primary py-4 rounded-lg font-bold text-base hover:opacity-95 transition-all flex items-center justify-center gap-2 shadow-lg shadow-primary/10">
+                  <h4 className="font-bold text-on-surface mb-2 text-lg">Executive Data Summary</h4>
+                  <p className="text-sm text-on-surface-variant mb-6 leading-relaxed">Access the complete risk methodology, including detailed scorecard metrics (Gini, IV, KS), data cleaning procedures, and strategic recommendations for portfolio optimization.</p>
+                  <a 
+                    href="/hongyen3011_Summary.pdf"
+                    download="hongyen3011_Summary.pdf"
+                    className="w-full bg-primary text-on-primary py-4 rounded-lg font-bold text-base hover:opacity-95 transition-all flex items-center justify-center gap-2 shadow-lg shadow-primary/10"
+                  >
                     <Download size={20} /> Download PDF
-                  </button>
+                  </a>
                 </div>
 
                 <div className="bg-surface-container p-6 rounded-2xl">
@@ -387,6 +412,22 @@ export default function App() {
   const [selectedCert, setSelectedCert] = useState<typeof CERTIFICATES[0] | null>(null);
   const [showContact, setShowContact] = useState(false);
 
+  useEffect(() => {
+    // Preload certificate images
+    const imagesToPreload = [
+      ...CERTIFICATES.map(c => c.image),
+      ...CERTIFICATES.map(c => c.certImage),
+      ...PROJECTS.map(p => p.image),
+      '/portrait.jpg',
+      '/Logo_UEH_xanh.png'
+    ];
+
+    imagesToPreload.forEach(src => {
+      const img = new Image();
+      img.src = src;
+    });
+  }, []);
+
   return (
     <div className="min-h-screen bg-surface selection:bg-primary/20 selection:text-primary">
       <Navbar onContactClick={() => setShowContact(true)} />
@@ -434,21 +475,21 @@ export default function App() {
       </section>
 
       {/* Experience Section */}
-      <section id="experience" className="bg-surface-low py-20 overflow-hidden">
+      <section id="experience" className="bg-surface-low pt-20 pb-10 overflow-hidden">
         <div className="max-w-6xl mx-auto px-6">
-          <div className="text-center mb-32 space-y-6">
+          <div className="text-center mb-16 space-y-6">
             <h2 className="text-5xl md:text-7xl font-black tracking-tighter">Professional Journey</h2>
-            <p className="text-xl text-on-surface-variant font-medium max-w-3xl mx-auto italic opacity-70">Joint Stock Commercial Bank for Foreign Trade of VietNam (Vietcombank)</p>
+            <p className="text-2xl text-on-surface-variant font-bold text-primary max-w-3xl mx-auto italic opacity-70">Joint Stock Commercial Bank for Foreign Trade of VietNam (Vietcombank)</p>
           </div>
           
           <div className="relative max-w-5xl mx-auto">
             {/* Center Line */}
             <div className="absolute left-6 md:left-1/2 top-0 bottom-0 w-1 bg-surface-highest/30 -translate-x-1/2 rounded-full" />
             
-            <div className="space-y-32">
+            <div className="space-y-16">
               {/* Experience Item 1 */}
               <div className="relative flex flex-col md:flex-row items-center justify-between group">
-                <div className="w-full md:w-5/12 ml-14 md:ml-0 md:text-right md:pr-16 order-2 md:order-1">
+                <div className="w-full md:w-7/12 ml-14 md:ml-0 md:text-right md:pr-6 order-2 md:order-1">
                   <motion.div
                     initial={{ opacity: 0, x: -30 }}
                     whileInView={{ opacity: 1, x: 0 }}
@@ -457,12 +498,14 @@ export default function App() {
                     <h3 className="text-3xl font-black tracking-tight group-hover:text-primary transition-colors">Credit Retail Analyst</h3>
                     <p className="text-primary font-black uppercase text-sm tracking-widest">Vietcombank</p>
                     <div className="space-y-5 text-base text-on-surface-variant leading-relaxed font-medium">
-                      <p><strong className="text-on-surface">Asset Quality Control:</strong> Evaluated loan applications and monitored credit health to maintain NPL ratio <span className="text-primary italic">below 1%</span>.</p>
-                      <p><strong className="text-on-surface">Risk Assessment:</strong> Performed rigorous financial data analysis and customer profiling to mitigate risks and ensure regulatory compliance.</p>
-                      <p><strong className="text-on-surface">Reporting & Insights:</strong> Built comprehensive performance reports and streamlined data synthesis for branch decision-making.</p>
+                      <p><strong className="text-on-surface">Credit Appraisal:</strong> Conducted in-depth financial analysis to assess borrower creditworthiness and loan viability.</p>
+                      <p><strong className="text-on-surface">Process Compliance:</strong> Performed credit assessments in strict accordance with bank policies and regulations.</p>
+                      <p><strong className="text-on-surface">Risk Mitigation:</strong> Identified potential risks to maintain a healthy portfolio and keep NPL ratios within safe limits.</p>
+                      <p><strong className="text-on-surface">Portfolio Monitoring:</strong> Tracked post-disbursement performance to detect early warning signs and ensure asset quality.</p>
+                      <p><strong className="text-on-surface">Reporting:</strong> Prepared comprehensive risk assessment reports to support informed credit decision-making.</p>
                     </div>
                     <div className="flex flex-wrap gap-2 pt-2 md:justify-end">
-                      {['Risk Analysis', 'Credit Assessment', 'Financial Data'].map(t => (
+                      {['Credit Analysis', 'Risk Management', 'Compliance', 'Reporting'].map(t => (
                         <span key={t} className="px-3 py-1 bg-surface-container rounded-full text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">{t}</span>
                       ))}
                     </div>
@@ -471,7 +514,7 @@ export default function App() {
 
                 <div className="absolute left-6 md:left-1/2 -translate-x-1/2 w-4 h-4 rounded-full bg-primary ring-[12px] ring-surface-low z-10 transition-transform duration-500 group-hover:scale-125" />
                 
-                <div className="w-full md:w-5/12 ml-14 md:ml-0 md:pl-16 mb-8 md:mb-0 order-1 md:order-2">
+                <div className="w-full md:w-7/12 ml-14 md:ml-0 md:pl-6 mb-8 md:mb-0 order-1 md:order-2">
                   <div className="bg-white p-8 rounded-3xl shadow-xl border border-surface-highest/10 inline-block transform transition-transform group-hover:translate-x-2">
                     <p className="text-xl font-black italic text-on-surface tracking-tight mb-1">4/2024 - 6/2025</p>
                     <p className="text-sm font-bold text-on-surface-variant opacity-60 flex items-center gap-2">
@@ -483,7 +526,7 @@ export default function App() {
 
               {/* Experience Item 2 */}
               <div className="relative flex flex-col md:flex-row items-center justify-between group">
-                <div className="w-full md:w-5/12 ml-14 md:ml-0 md:pr-16 mb-8 md:mb-0 order-1">
+                <div className="w-full md:w-7/12 ml-14 md:ml-0 md:pr-6 mb-8 md:mb-0 order-1">
                   <div className="bg-white p-8 rounded-3xl shadow-xl border border-surface-highest/10 inline-block md:float-right transform transition-transform group-hover:-translate-x-2">
                     <p className="text-xl font-black italic text-on-surface tracking-tight mb-1">7/2022 - 3/2024</p>
                     <p className="text-sm font-bold text-on-surface-variant opacity-60 flex items-center gap-2">
@@ -494,21 +537,23 @@ export default function App() {
 
                 <div className="absolute left-6 md:left-1/2 -translate-x-1/2 w-4 h-4 rounded-full bg-secondary ring-[12px] ring-surface-low z-10 transition-transform duration-500 group-hover:scale-125" />
 
-                <div className="w-full md:w-5/12 ml-14 md:ml-0 md:pl-16 order-2">
+                <div className="w-full md:w-7/12 ml-14 md:ml-0 md:pl-6 order-2">
                   <motion.div
                     initial={{ opacity: 0, x: 30 }}
                     whileInView={{ opacity: 1, x: 0 }}
                     className="space-y-4"
                   >
-                    <h3 className="text-3xl font-black tracking-tight group-hover:text-primary transition-colors">Relationship Retail Customer</h3>
+                    <h3 className="text-3xl font-black tracking-tight group-hover:text-primary transition-colors">Customer Relationship Management Specialist</h3>
                     <p className="text-primary font-black uppercase text-sm tracking-widest">Vietcombank</p>
                     <div className="space-y-5 text-base text-on-surface-variant leading-relaxed font-medium">
-                      <p><strong className="text-on-surface">Portfolio Management:</strong> Managed an average retail loan portfolio of <span className="text-primary underline decoration-2 underline-offset-4">VND 100-150 billion</span>, ensuring stable growth.</p>
-                      <p><strong className="text-on-surface">Business Development:</strong> Achieved about <strong>80%</strong> of annual KPIs for loan growth through targeted segmentation and advisory.</p>
-                      <p><strong className="text-on-surface">Sales & Retention:</strong> Optimized product penetration and improved customer retention via proactive relationship management.</p>
+                      <p><strong className="text-on-surface">Customer Acquisition:</strong> Proactively identified and acquired new loan customers through networking and market outreach.</p>
+                      <p><strong className="text-on-surface">Loan Management:</strong> Collected and analyzed financial documents to prepare high-quality loan application dossiers for approval.</p>
+                      <p><strong className="text-on-surface">Relationship Management:</strong> Developed and maintained strong connections with the retail customer base to ensure long-term retention.</p>
+                      <p><strong className="text-on-surface">Post-Loan Monitoring:</strong> Managed customer portfolios after disbursement, providing proactive support and timely financial consultations.</p>
+                      <p><strong className="text-on-surface">Strategic Sales & Cross-selling:</strong> Analyzed customer profiles to deliver tailored products (insurance, cards, digital banking), maximizing cross-selling efficiency.</p>
                     </div>
                     <div className="flex flex-wrap gap-2 pt-2">
-                      {['Portfolio Mgmt', 'Sales', 'Customer Retention'].map(t => (
+                      {['Customer Acquisition', 'Credit Analysis', 'CRM', 'Strategic Sales'].map(t => (
                         <span key={t} className="px-3 py-1 bg-surface-container rounded-full text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">{t}</span>
                       ))}
                     </div>
@@ -522,8 +567,8 @@ export default function App() {
 
       {/* Projects Section */}
       <section id="projects" className="py-20 max-w-7xl mx-auto px-6">
-        <div className="max-w-3xl mx-auto text-center mb-32 space-y-8">
-          <h2 className="text-5xl md:text-7xl font-black tracking-tighter">Curated Projects</h2>
+        <div className="max-w-3xl mx-auto text-center mb-16 space-y-8">
+          <h2 className="text-5xl md:text-7xl font-black tracking-tighter">Projects</h2>
           <p className="text-xl text-on-surface-variant font-medium leading-relaxed opacity-80 italic">Case studies demonstrating the translation of raw data into actionable business strategy.</p>
         </div>
 
@@ -578,8 +623,8 @@ export default function App() {
               <p className="text-2xl text-on-surface-variant font-medium leading-relaxed italic opacity-80 -mt-4">Tools are just instruments; the true skill lies in knowing which questions to ask.</p>
               <div className="space-y-10">
                 {[
-                  { title: 'Data Storytelling', text: 'Translating complex models into accessible insights for non-technical stakeholders to drive measurable business outcome.' },
-                  { title: 'Statistical Rigor', text: 'Ensuring findings are mathematically sound and statistically significant to avoid costly biases in data-led decisions.' }
+                  { title: 'Data Storytelling & Visualization', text: 'Visualizing insights for decision-making. Creating interactive dashboards using Power BI, while leveraging Seaborn and Matplotlib to translate data into clear, actionable insights.' },
+                  { title: 'Analytical Logic & Processing', text: 'Streamlining end-to-end data pipelines. Executing EDA, Data Cleaning, and ETL with MySQL and Power Query, while applying Machine Learning (Scikit-learn) to build robust predictive models.' }
                 ].map((item, idx) => (
                   <div key={idx} className="flex items-start gap-6 group">
                     <div className="p-4 bg-white rounded-3xl shadow-xl text-primary group-hover:scale-110 transition-transform">
