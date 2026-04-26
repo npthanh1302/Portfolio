@@ -342,7 +342,6 @@ const ProjectModal = ({ project, onClose }: { project: Project; onClose: () => v
                     <Download size={32} />
                   </div>
                   <h4 className="font-bold text-on-surface mb-2 text-lg">Executive Data Summary</h4>
-                  <p className="text-sm text-on-surface-variant mb-6 leading-relaxed">Access the complete risk methodology, including detailed scorecard metrics (Gini, IV, KS), data cleaning procedures, and strategic recommendations for portfolio optimization.</p>
                   <a 
                     href="/hongyen3011_Summary.pdf"
                     download="hongyen3011_Summary.pdf"
